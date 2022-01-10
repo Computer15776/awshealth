@@ -20,10 +20,10 @@ ENV = os.environ.get('ENV')
 DDB_TABLE = os.environ.get('DDB_TABLE_NAME')
 # Discord API webhook URL
 URL = ssm.get_parameter(
-    f'/{ENV}/awshealth/URL', True)['Parameter']['Value']
+    Name=f'/{ENV}/awshealth/URL', WithDecryption=True)['Parameter']['Value']
 # URL for failed events to be sent to
 FAIL_URL = ssm.get_parameter(
-    f'/{ENV}/awshealth/FAIL_URL', True)['Parameter']['Value']
+    Name=f'/{ENV}/awshealth/FAIL_URL', WithDecryption=True)['Parameter']['Value']
 
 # The ordering of fieldKeys dictates the field ordering in the Discord embed, they are inline
 fieldKeys = ['startTime', 'endTime', 'lastUpdatedTime', 'region']
