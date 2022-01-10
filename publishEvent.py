@@ -214,7 +214,7 @@ def handle_event(event, details):
     logger.debug(f'Embeds: {embeds}')
 
     # Push embeds to Discord channel
-    response = send_to_discord(embeds)
+    send_to_discord(embeds)
 
 
 def construct_embed(action, details):
@@ -425,37 +425,38 @@ def calculate_discord_delay(r, status):
 
 def send_to_discord(embeds):
     '''Passes the embed(s) to Discord'''
-
-    delay = 0.25
-    for embed in embeds:
-        status = None
-        body = {
-            "embeds": [embed]
-        }
-        while status != 200 and status != None:  # Message not successfully delivered to Discord
-            logger.warning(
-                f'Status was {status}. Delaying next request by {delay} seconds')
-            time.sleep(delay)
-
-            try:
-                r = requests.post(URL, json=body)
-                status = r.status_code
-                logger.info(f'Discord response status: {status}')
-            except:
-                logger.critical(
-                    'An error occurred sending the payload to Discord')
-                logger.critical(f'Response: {r.content}')
-                logger.critical(f'Payload:' + {body})
-                logger.critical(f'Delay: ' + {delay})
-            else:
-                if status == 200:  # Message success, add metadata back to DDB
-                    logger.info('Payload successfully delivered to Discord')
-                    logger.debug(f'Payload:' + {body})
-                else:  # Something happened other than success, log and recalculate delay in case of rate limit
-                    logger.critical(f'Status was {status}')
-                    logger.critical(f'Embeds: {embeds}')
-                    logger.critical(f'Payload: {body}')
-                    delay = calculate_discord_delay(r, status)
-                    return True
-    else:
+    if bool(embeds) == False:
         raise TypeError('Embeds is empty. At least one embed must be given.')
+    else:
+        delay = 0.25
+        for embed in embeds:
+            status = None
+            body = {
+                "embeds": [embed]
+            }
+            while status != 200 and status != None:  # Message not successfully delivered to Discord
+                logger.warning(
+                    f'Status was {status}. Delaying next request by {delay} seconds')
+                time.sleep(delay)
+
+                try:
+                    r = requests.post(URL, json=body)
+                    status = r.status_code
+                    logger.info(f'Discord response status: {status}')
+                except:
+                    logger.critical(
+                        'An error occurred sending the payload to Discord')
+                    logger.critical(f'Response: {r.content}')
+                    logger.critical(f'Payload:' + {body})
+                    logger.critical(f'Delay: ' + {delay})
+                else:
+                    if status == 200:  # Message success, add metadata back to DDB
+                        logger.info(
+                            'Payload successfully delivered to Discord')
+                        logger.debug(f'Payload:' + {body})
+                    else:  # Something happened other than success, log and recalculate delay in case of rate limit
+                        logger.critical(f'Status was {status}')
+                        logger.critical(f'Embeds: {embeds}')
+                        logger.critical(f'Payload: {body}')
+                        delay = calculate_discord_delay(r, status)
+                    return True
