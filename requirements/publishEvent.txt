@@ -1,0 +1,10 @@
+# Python modules for publishEvent.py
+os
+requests
+textwrap
+time
+json
+boto3
+difflib
+aws_lambda_powertools
+datetime

@@ -1,0 +1,5 @@
+# Python modules for getEvents.py
+os
+boto3
+time
+aws_lambda_powertools

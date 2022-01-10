@@ -28,12 +28,7 @@ For `publishEvent.py`:
 
 ## 📜 Requirements
 * Python 3.9+
-  * os
-  * boto3
-  * time
-  * aws_lambda_powertools
-  * requests
-  * textwrap
-  * json
-  * difflib
-  * datetime
+* pip modules in `/requirements`
+
+## 🏰 Architecture
+![Architecture diagram](https://i.imgur.com/GtBCqqX.png)
