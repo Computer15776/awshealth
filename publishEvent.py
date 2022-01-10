@@ -6,6 +6,7 @@ import json
 import boto3
 import difflib
 from aws_lambda_powertools import Logger
+from aws_lambda_powertools.utilities import parameters
 from datetime import datetime, timezone
 
 # Configure logging
@@ -17,8 +18,10 @@ ddb = boto3.client('dynamodb')
 # Configure environment and global vars
 ENV = os.environ.get('ENV')
 DDB_TABLE = os.environ.get('DDB_TABLE_NAME')
-URL = os.environ.get('URL')  # Discord API webhook URL
-FAIL_URL = os.environ.get('FAIL_URL')  # URL for failed events to be sent to
+# Discord API webhook URL
+URL = parameters.get_parameter(f'{ENV}/awshealth/URL')
+# URL for failed events to be sent to
+FAIL_URL = parameters.get_parameter(f'{ENV}/awshealth/FAIL_URL')
 
 # The ordering of fieldKeys dictates the field ordering in the Discord embed, they are inline
 fieldKeys = ['startTime', 'endTime', 'lastUpdatedTime', 'region']
