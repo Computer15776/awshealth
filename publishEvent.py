@@ -19,9 +19,9 @@ ddb = boto3.client('dynamodb')
 ENV = os.environ.get('ENV')
 DDB_TABLE = os.environ.get('DDB_TABLE_NAME')
 # Discord API webhook URL
-URL = parameters.get_parameter(f'{ENV}/awshealth/URL', decrypt=True)
+URL = parameters.get_parameter(f'/{ENV}/awshealth/URL', decrypt=True)
 # URL for failed events to be sent to
-FAIL_URL = parameters.get_parameter(f'{ENV}/awshealth/FAIL_URL', decrypt=True)
+FAIL_URL = parameters.get_parameter(f'/{ENV}/awshealth/FAIL_URL', decrypt=True)
 
 # The ordering of fieldKeys dictates the field ordering in the Discord embed, they are inline
 fieldKeys = ['startTime', 'endTime', 'lastUpdatedTime', 'region']
