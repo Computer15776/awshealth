@@ -437,11 +437,11 @@ def send_to_discord(embeds):
             body = {
                 "embeds": [embed]
             }
-            while status != 200 and status != None:  # Message not successfully delivered to Discord
-                logger.warning(
-                    f'Status was {status}. Delaying next request by {delay} seconds')
+            while status != 200:  # Message not successfully delivered to Discord
+                if status != None:
+                    logger.warning(
+                        f'Status was {status}. Delaying next request by {delay} seconds')
                 time.sleep(delay)
-
                 try:
                     r = requests.post(URL, json=body)
                     status = r.status_code
