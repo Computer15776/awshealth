@@ -5,7 +5,7 @@ from aws_lambda_powertools import Logger
 
 # Configure environment and global vars
 ENV = os.environ.get('ENV')
-DDB_TABLE = os.environ.get('DDB_TABLE_NAME')
+DDB_TABLE = os.environ.get('DDB_TABLE')
 TTL = os.environ.get('TTL', 31556926)
 
 
