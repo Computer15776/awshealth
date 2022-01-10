@@ -121,7 +121,8 @@ def lambda_handler(event, context):
 
     except Exception as e:
         logger.exception(f'An error occurred: {e}')
-        requests.post(FAIL_URL, json={'body': context.aws_request_id})
+        if FAIL_URL != None:
+            requests.post(FAIL_URL, json={'body': context.aws_request_id})
         raise  # We should probably stop right there, no?
 
 
