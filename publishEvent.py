@@ -215,6 +215,7 @@ def handle_event(event, details):
 
     # Push embeds to Discord channel
     send_to_discord(embeds)
+    return True
 
 
 def construct_embed(action, details):
@@ -425,11 +426,13 @@ def calculate_discord_delay(r, status):
 
 def send_to_discord(embeds):
     '''Passes the embed(s) to Discord'''
+    logger.debug(f'EMBEDS: {embeds}')
     if bool(embeds) == False:
         raise TypeError('Embeds is empty. At least one embed must be given.')
     else:
         delay = 0.25
         for embed in embeds:
+            logger.debug(f'EMBED IS: {embed}')
             status = None
             body = {
                 "embeds": [embed]
