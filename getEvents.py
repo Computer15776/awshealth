@@ -123,6 +123,7 @@ def get_event_details(events):
 
 def update_ddb(full_events):
     '''Update DDB items with retrieved attributes and data'''
+
     for event in full_events:
         ea_names, ea_values, update_exp = create_ddb_kwargs(event)
 
@@ -141,6 +142,13 @@ def update_ddb(full_events):
 
 def event_iterator():
     '''Loop through events to obtain data on all available events'''
+
+    paginator = health.get_paginator('describe_events')
+    page_iterator = paginator.paginate(
+        filter={
+            'eventTypeCategories': ['issue']
+        }
+    )
     event_list = []
     for page in page_iterator:
         for event in page.get('events'):
@@ -152,6 +160,8 @@ def event_iterator():
 
 @logger.inject_lambda_context
 def lambda_handler(event, context):
+    '''AWS Lambda handler'''
+
     logger.debug(f'EVENT: {event}')
     try:
         event_list = event_iterator()
