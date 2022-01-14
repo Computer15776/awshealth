@@ -118,11 +118,11 @@ def lambda_handler(event, context):
 
                 if action != 'REMOVE':
                     # Pull the new/old values into the dict and calc delta for the event description
-                    updated_details = load_dict_values(
+                    load_dict_values(
                         ev, action, details)
-                    logger.debug(f'Updated Details: {updated_details}')
+                    logger.debug(f'Updated Details: {details}')
                     # Parse data into chunks and then send to Discord webhook
-                    handle_event(ev, updated_details)
+                    handle_event(ev, details)
 
     except Exception as e:
         logger.exception(f'An error occurred: {e}')
@@ -154,7 +154,6 @@ def load_dict_values(event, action, details):
 
     # For future use if we need to refer back any metadata from Discord and relate to DDB PK
     details['arn']['NewValue'] = event['dynamodb']['Keys']['PK']['S']
-    return details
 
 
 def compare_event_descriptions(old, new):
