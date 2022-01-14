@@ -152,8 +152,10 @@ def event_iterator():
 
 @logger.inject_lambda_context
 def lambda_handler(event, context):
+    logger.debug(f'EVENT: {event}')
     try:
         event_list = event_iterator()
+        logger.debug(F'HEALTH EVENT LIST: {event_list}')
         update_ddb(get_event_details(event_list))
     except Exception as e:
         logger.exception(f'An error occurred: {e}')
