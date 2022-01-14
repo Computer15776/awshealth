@@ -184,7 +184,7 @@ def compare_event_descriptions(old, new):
         for chunk in delta_chunks:
             # Omit as these are usually junk lines
             if chunk.startswith('?'):
-                pass
+                continue
             # Check that chunk doesn't contain the diff code already
             if not (chunk.startswith('+') or chunk.startswith('-')):
                 chunk = f'```diff\n{diff_code} {chunk}\n```'
